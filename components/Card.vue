@@ -1,27 +1,4 @@
 <template>
-  <!-- <div class="column">
-    <div class="card">
-      <header class="card-header">
-        <p class="card-header-title has-text-grey">
-          {{ title }}
-        </p>
-      </header>
-      <div class="card-content">
-        <div class="content has-text-centered">
-          <img
-            :src=imageSrc
-          />
-        </div>
-      </div>
-      <footer class="card-footer">
-        <div class="card-footer-item">
-          <span>
-            <slot />
-          </span>
-        </div>
-      </footer>
-    </div>
-  </div> -->
   <div class="card" >
   <div class="card-content">
     <div class="media">
@@ -40,7 +17,7 @@
         <div class="column is-half is-mobile ">
           <div class="columns is-multiline">
             <div class="column is-full value">
-              12
+              {{followers}}
             </div>
             <div class="column is-full label">
               Followers
@@ -50,7 +27,7 @@
         <div class="column is-half ">
           <div class="columns is-multiline">
             <div class="column is-full value">
-              5
+              {{datasets}}
             </div>
             <div class="column is-full label">
               Datasets
@@ -74,8 +51,12 @@ export default {
       type: String,
       required: true
     },
-    description:{
-      type:String,
+    followers:{
+      type:Number,
+      required:true
+    },
+    datasets:{
+      type:Number,
       required:true
     }
   }

@@ -1,14 +1,6 @@
 <template>
 <div>
     <section>
-        <!-- <div class="block">
-            <b-switch v-model="openOnFocus">
-                Open dropdown on focus
-            </b-switch>
-            <b-switch v-model="keepFirst">
-                Keep-first <small>(will always have first option pre-selected)</small>
-            </b-switch>
-        </div> -->
         <div class="columns">
         <b-field class="column is-11">
             <b-autocomplete 
@@ -48,7 +40,8 @@
                 :key="index" 
                 :title="organisation.title" 
                 :imageSrc="organisation.image_display_url"
-                :description="organisation.description"/>
+                :followers="organisation.num_followers"
+                :datasets="organisation.package_count" />
         </div>
     </section>
 </div>
