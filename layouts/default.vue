@@ -27,7 +27,7 @@
         <nuxt-link class="navbar-item" to="/">
           Datasets
         </nuxt-link>
-        <nuxt-link class="navbar-item" to="/">
+        <nuxt-link class="navbar-item" to="/organisations">
           Organizations
         </nuxt-link>
         <nuxt-link class="navbar-item" to="/">
