@@ -30,8 +30,8 @@
         <nuxt-link class="navbar-item" to="/organisations">
           Organizations
         </nuxt-link>
-        <nuxt-link class="navbar-item" to="/">
-          Group
+        <nuxt-link class="navbar-item" to="/groups">
+          Groups
         </nuxt-link>
         <nuxt-link class="navbar-item" to="/about-us">
           About Us

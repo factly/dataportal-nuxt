@@ -29,15 +29,76 @@ app.get('/organisations', async (req, res, next) => {
             var organisationNames = []
             filteredOrganisations.data.result.forEach((item)=>organisationNames.push(item.name))
             console.log(organisationNames)
-            const organisations= await axios({
+            if(organisationNames.length>0){
+                const organisations= await axios({
+                    method:'get',
+                    url:'http://0.0.0.0:5000/api/3/action/organization_list',
+                    data:{
+                        all_fields:true,
+                        organizations:organisationNames
+                    }
+                })
+                res.json(organisations.data)
+            }
+            else{
+                res.json([])
+            }
+            
+
+        }catch(err){
+            console.log(err);
+            res.json({error:err})
+        }
+        
+    }
+    
+
+})
+
+app.get('/groups', async (req, res, next) => {
+    const axios = require('axios')
+    if(!req.query.filter){
+        try
+        {
+            const groups= await axios({
+            method:'get',
+            url:'http://0.0.0.0:5000/api/3/action/group_list?all_fields=true'
+        })
+        res.json(groups.data)
+
+        }catch(err){
+            console.log(err);
+            res.json({error:err})
+        }
+    }
+    else{
+        console.log(req.query)
+        try{
+            const filteredGroups = await axios({
                 method:'get',
-                url:'http://0.0.0.0:5000/api/3/action/organization_list',
-                data:{
-                    all_fields:true,
-                    organizations:organisationNames
-                }
+                url:'http://0.0.0.0:5000/api/3/action/group_autocomplete?q='+req.query['filter']
             })
-            res.json(organisations.data)
+            var groupNames = []
+            console.log(groupNames)
+            filteredGroups.data.result.forEach((item)=>groupNames.push(item.name))
+            console.log(filteredGroups)
+            console.log("groupNames",groupNames)
+            if(groupNames.length>0){
+                const groups= await axios({
+                    method:'get',
+                    url:'http://0.0.0.0:5000/api/3/action/group_list',
+                    data:{
+                        all_fields:true,
+                        groups:groupNames
+                    }
+                })
+                console.log(groups)
+                res.json(groups.data)
+            }
+            else{
+                res.json([])
+            }
+            
 
         }catch(err){
             console.log(err);

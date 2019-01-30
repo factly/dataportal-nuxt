@@ -7,7 +7,7 @@
                 ref="autocomplete"
                 v-model="name"
                 :data="data"
-                :placeholder="'Search from'+count+' Organisations'"
+                :placeholder="'Search from'+count+' Groups'"
                 field="title"
                 :loading="isFetching"
                 @keyup.enter.native="search"
@@ -32,16 +32,16 @@
         </div>
     </section>
     <br>
-    <section v-if="organisations">
+    <section v-if="groups">
         <div class="columns .is-variable is-3 is-multiline is-mobile is-centered">
-            <OrganisationCard 
+            <GroupCard 
                 class="column is-one-quarter-desktop is-full-mobile" 
-                v-for="(organisation,index) in organisations" 
+                v-for="(group,index) in groups" 
                 :key="index" 
-                :title="organisation.title" 
-                :imageSrc="organisation.image_display_url"
-                :followers="organisation.num_followers"
-                :datasets="organisation.package_count" />
+                :title="group.title" 
+                :imageSrc="group.image_display_url"
+                :followers="group.num_followers"
+                :datasets="group.package_count" />
         </div>
     </section>
 </div>
@@ -49,10 +49,10 @@
 <script>
 import axios from 'axios';
 import debounce from 'lodash/debounce';
-import OrganisationCard from '~/components/OrganisationCard';
+import GroupCard from '~/components/GroupCard';
 export default {
     components :{
-        OrganisationCard
+        GroupCard
     },
     data() {
             return {
@@ -60,22 +60,25 @@ export default {
                 name: '',
                 selected: null,
                 isFetching: false,
-                organisations:null,
+                groups:null,
                 title:"some-title",
                 count:0,
             }
     },
     async asyncData(){
     return axios
-      .get(`http://localhost:3000/api/organisations`)
+      .get(`http://localhost:3000/api/groups`)
       .then(response => {
-          console.log(response.data);
+          console.log(response.data.result);
         return {
-                organisations : response.data.result ,
+                groups : response.data.result ,
                 count: response.data.result.length
             }
       })
       .catch(error => console.log(error))
+    },
+    created() {
+        this.getAsyncData = debounce(this.getAsyncData, 500);
     },
     methods:{
         select:function(option){
@@ -83,16 +86,17 @@ export default {
                 this.name = option.display_name
                 this.search();
         },
-        search:function(event = null){
+        search(event = null){
             if(this.name){
-                axios.get(`http://localhost:3000/api/organisations?filter=`+this.name)
+                axios.get(`http://localhost:3000/api/groups?filter=`+this.name)
                     .then(response =>{
                         this.data =[]
-                        console.log(response)
+                        console.log("search",response)
                         if(response.data.result)
-                            response.data.result.forEach((item)=>this.data.push(item))
-                        console.log(this.data)
-                        this.organisations = this.data;
+                        response.data.result.forEach((item)=>this.data.push(item))
+                        
+                        this.groups = this.data;
+                        console.log("data",this.groups)
                         this.$refs.autocomplete.isActive = false;
                     })
                     .catch((error) => {
@@ -102,27 +106,31 @@ export default {
             }
             else{
                 return axios
-                    .get(`http://localhost:3000/api/organisations`)
+                    .get(`http://localhost:3000/api/groups`)
                     .then(response => {
                         console.log(response.data);
-                        this.organisations = response.data.result
+                        this.groups = response.data.result
+                        console.log(this.groups)
                     })
                     .catch(error => console.log(error))
                 }
         },
-        getAsyncData:debounce(function(){
+        getAsyncData(){
             console.log(name)
             if (!this.name.length) {
                     this.data = []
                     return
             }
             this.isFetching = true;
-            axios.get(`http://localhost:3000/api/organisations?filter=`+this.name)
+            name=this.name;
+            axios.get(`http://localhost:3000/api/groups?filter=`+name)
             .then(response =>{
                 this.data =[]
+                debugger;
                 console.log(response)
                 if(response.data.result)
-                response.data.result.forEach((item)=>this.data.push(item))
+                    response.data.result.forEach((item)=>this.data.push(item))
+                debugger;
                 console.log(this.data)
             })
             .catch((error) => {
@@ -132,7 +140,7 @@ export default {
             .finally(() => {
                 this.isFetching = false
             })
-        },500),
+        },
         
     }
 }
