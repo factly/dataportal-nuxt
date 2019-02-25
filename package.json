@@ -13,11 +13,14 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "child_process": "^1.0.2",
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "lodash.debounce": "^4.0.8",
     "nuxt": "^2.3.4",
-    "nuxt-buefy": "^0.3.2"
+    "nuxt-buefy": "^0.3.2",
+    "nuxt-storage": "^1.0.9",
+    "password-hash": "^1.2.2"
   },
   "devDependencies": {
     "node-sass": "^4.11.0",

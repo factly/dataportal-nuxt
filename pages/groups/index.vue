@@ -69,10 +69,10 @@ export default {
     return axios
       .get(`http://localhost:3000/api/groups`)
       .then(response => {
-          console.log(response.data.result);
+          console.log(response.data);
         return {
-                groups : response.data.result ,
-                count: response.data.result.length
+                groups : response.data ,
+                count: response.data.length
             }
       })
       .catch(error => console.log(error))
@@ -92,8 +92,8 @@ export default {
                     .then(response =>{
                         this.data =[]
                         console.log("search",response)
-                        if(response.data.result)
-                        response.data.result.forEach((item)=>this.data.push(item))
+                        if(response.data)
+                        response.data.forEach((item)=>this.data.push(item))
                         
                         this.groups = this.data;
                         console.log("data",this.groups)
@@ -109,7 +109,7 @@ export default {
                     .get(`http://localhost:3000/api/groups`)
                     .then(response => {
                         console.log(response.data);
-                        this.groups = response.data.result
+                        this.groups = response.data
                         console.log(this.groups)
                     })
                     .catch(error => console.log(error))
@@ -128,8 +128,8 @@ export default {
                 this.data =[]
                 debugger;
                 console.log(response)
-                if(response.data.result)
-                    response.data.result.forEach((item)=>this.data.push(item))
+                if(response.data)
+                    response.data.forEach((item)=>this.data.push(item))
                 debugger;
                 console.log(this.data)
             })

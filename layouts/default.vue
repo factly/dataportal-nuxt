@@ -3,8 +3,7 @@
     <nav
       class="navbar header has-shadow is-spaced"
       role="navigation"
-      aria-label="main navigation"
-    >
+      aria-label="main navigation">
       <div class="navbar-brand">
         <a
           class="navbar-item"
@@ -17,25 +16,33 @@
           >
         </a>
 
-        <div class="navbar-burger">
+        <div class="navbar-burger" v-on:click="toggleMenu()">
           <span />
           <span />
           <span />
         </div>
       </div>
-      <div class="navbar-end">
-        <nuxt-link class="navbar-item" to="/">
-          Datasets
-        </nuxt-link>
-        <nuxt-link class="navbar-item" to="/organisations">
-          Organizations
-        </nuxt-link>
-        <nuxt-link class="navbar-item" to="/groups">
-          Groups
-        </nuxt-link>
-        <nuxt-link class="navbar-item" to="/about-us">
-          About Us
-        </nuxt-link>
+      <div class="navbar-menu" v-bind:class="{ 'is-active': opened }">
+        <div class="navbar-end">
+          <nuxt-link class="navbar-item" to="/login">
+            Login
+          </nuxt-link>
+          <nuxt-link class="navbar-item" to="/signup">
+            Signup
+          </nuxt-link>
+          <nuxt-link class="navbar-item" to="/">
+            Datasets
+          </nuxt-link>
+          <nuxt-link class="navbar-item" to="/organisations">
+            Organizations
+          </nuxt-link>
+          <nuxt-link class="navbar-item" to="/groups">
+            Groups
+          </nuxt-link>
+          <nuxt-link class="navbar-item" to="/about-us">
+            About Us
+          </nuxt-link>
+        </div>
       </div>
     </nav>
 
@@ -71,7 +78,13 @@ export default {
           icon: 'lightbulb',
           to: { name: 'inspire' }
         }
-      ]
+      ],
+      opened:false
+    }
+  },
+  methods:{
+    toggleMenu(){
+      this.opened = !this.opened;
     }
   }
 }
@@ -95,6 +108,7 @@ export default {
 
 .body{
   background:#f2f3f6;
+  min-height: 100%;
 }
 
 .nuxt-link-exact-active{
