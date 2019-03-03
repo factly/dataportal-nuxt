@@ -36,7 +36,8 @@
                     </div>
                 </div>
                 <div class="column">
-                    <button class="button is-fullwidth is-primary is-rounded" :click="follow">Follow</button>
+                    <button v-if="followStatus" class="button is-fullwidth is-primary is-rounded" :click="unFollow">Unfollow</button>
+                    <button v-if="followStatus === false" class="button is-fullwidth is-primary is-rounded" :click="follow">Follow</button>
                 </div>
             </div>
             <div class="column box">
@@ -99,25 +100,46 @@ export default {
                 packageCount:null,
                 description:null,
                 packages:null,
+                followStatus:null,
             }
     },
     async asyncData({store,params}){
     let id=params.id;
-    return axios.get("http://localhost:3000/api/organisations/"+id)
-                .then((response)=>{
-                    console.log("response",response);
-                    if(response.status == "200" )
-                        return {
-                            id:id,
-                            name:response.data.name,
-                            imageUrl:response.data.image_url,
-                            numFollowers:response.data.num_followers,
-                            packageCount:response.data.package_count,
-                            description:response.data.description,
-                            packages:response.data.packages
-                        }
-                    return null
-                })
+    let data ={ };
+    let organisationDataPromise = axios(
+        {
+            method:"get",
+            url:"http://localhost:3000/api/organisations/"+id,
+        }
+    );
+    let token = store.state.user.token;
+    let followStatusPromise = axios(
+        {
+            method:"post",
+            url:"http://localhost:3000/api/follow_status",
+            data:{
+                id:id,
+                token:token
+            }
+        }
+    )
+    let organisationData,followStatusData
+    [organisationData,followStatusData] = [ await organisationDataPromise,await followStatusPromise ];
+    followStatusData = await followStatusPromise;
+    if(organisationData.data.success){
+        data ={
+            id:id,
+            name:organisationData.data.result.name,
+            imageUrl:organisationData.data.result.image_url,
+            numFollowers:organisationData.data.result.num_followers,
+            packageCount:organisationData.data.result.package_count,
+            description:organisationData.data.result.description,
+            packages:organisationData.data.result.packages
+        }
+    }
+    if(followStatusData.data.success)
+        data["followStatus"] =followStatusData.data.result
+    return data;
     },
     computed: {
     token () {
@@ -126,6 +148,9 @@ export default {
   },
     methods:{
         follow(){
+
+        },
+        unFollow(){
 
         }  
     }

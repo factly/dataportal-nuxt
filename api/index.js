@@ -126,7 +126,7 @@ app.get('/organisations/:id',async (req,res,next) =>{
     console.log(organisation.data.result.packages.filter((item)=>{
         return !item.private
     }))
-    res.send(organisation.data.result);
+    res.send(organisation.data);
 })
 
 app.post('/user/signUp',async (req,res,next) =>{
@@ -207,6 +207,46 @@ app.post('/user/login',async(req,res,next)=>{
     }
 })
 
+app.get('/activities/organisation/:id',async (req,res,next) =>{
+    const axios = require('axios')
+    let id = req.params.id;
+    const activity = await axios({
+        method:'get',
+        url:baseUrl+'/api/3/action/organization_activity_list',
+        data:{
+            'id':id,
+        },
+    })
+    console.log(activity.data.result)
+    res.end(JSON.stringify(activity.data.result))
+})
+
+app.post('/follow_status',async (req,res,next)=>{
+    console.log("passing")
+    const axios = require('axios')
+    let token = req.body.token;
+    let id = req.body.id;
+    console.log("id",req)
+    try{
+        const follow_status = await axios({
+            method:'get',
+            url:baseUrl+'/api/3/action/am_following_group',
+            data:{
+                id:id
+            },
+            headers:{
+                Authorization:token
+            }
+        })
+        console.log("follow_status",follow_status)
+        res.end(JSON.stringify(follow_status.data));
+    }
+    catch(err){
+        //console.log(err)
+        res.end(JSON.stringify({"success":"false","error":"Unknown"}))
+    }
+        
+})
 // export the server middleware
 module.exports = {
   path: '/api',
