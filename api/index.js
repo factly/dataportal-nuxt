@@ -10,7 +10,7 @@ app.get('/organisations', async (req, res, next) => {
         {
             const organisations= await axios({
             method:'get',
-            url:'http://0.0.0.0:5000/api/3/action/organization_list?all_fields=true'
+            url:'http://demo.ckan.org/api/3/action/organization_list?all_fields=true&limit=10'
         })
         res.json(organisations.data)
 
@@ -24,7 +24,7 @@ app.get('/organisations', async (req, res, next) => {
         try{
             const filteredOrganisations = await axios({
                 method:'get',
-                url:'http://0.0.0.0:5000/api/3/action/organization_autocomplete?q='+req.query['filter']
+                url:'http://demo.ckan.org/api/3/action/organization_autocomplete?q='+req.query['filter']
             })
             var organisationNames = []
             filteredOrganisations.data.result.forEach((item)=>organisationNames.push(item.name))
@@ -32,7 +32,7 @@ app.get('/organisations', async (req, res, next) => {
             if(organisationNames.length>0){
                 const organisations= await axios({
                     method:'get',
-                    url:'http://0.0.0.0:5000/api/3/action/organization_list',
+                    url:'http://demo.ckan.org/api/3/action/organization_list?limit=10',
                     data:{
                         all_fields:true,
                         organizations:organisationNames
@@ -62,7 +62,7 @@ app.get('/groups', async (req, res, next) => {
         {
             const groups= await axios({
             method:'get',
-            url:'http://0.0.0.0:5000/api/3/action/group_list?all_fields=true'
+            url:'http://demo.ckan.org/api/3/action/group_list?all_fields=true&limit=10'
         })
         res.json(groups.data)
 
@@ -76,7 +76,7 @@ app.get('/groups', async (req, res, next) => {
         try{
             const filteredGroups = await axios({
                 method:'get',
-                url:'http://0.0.0.0:5000/api/3/action/group_autocomplete?q='+req.query['filter']
+                url:'http://demo.ckan.org/api/3/action/group_autocomplete?q='+req.query['filter']
             })
             var groupNames = []
             console.log(groupNames)
@@ -86,7 +86,7 @@ app.get('/groups', async (req, res, next) => {
             if(groupNames.length>0){
                 const groups= await axios({
                     method:'get',
-                    url:'http://0.0.0.0:5000/api/3/action/group_list',
+                    url:'http://demo.ckan.org/api/3/action/group_list?limit=10',
                     data:{
                         all_fields:true,
                         groups:groupNames

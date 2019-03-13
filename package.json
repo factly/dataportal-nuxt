@@ -23,5 +23,15 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.9",
     "sass-loader": "^7.1.0"
-  }
+  },
+  "main": "nuxt.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/factly/dataportal-nuxt.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/factly/dataportal-nuxt/issues"
+  },
+  "homepage": "https://github.com/factly/dataportal-nuxt#readme"
 }
