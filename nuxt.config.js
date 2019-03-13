@@ -16,7 +16,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href:'https://use.fontawesome.com/releases/v5.7.1/css/all.css', integrity:"sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr", crossorigin:"anonymous"}
+      { rel: 'stylesheet', href:'https://use.fontawesome.com/releases/v5.7.1/css/all.css', integrity:"sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr", crossorigin:"anonymous"},
     ]
   },
 
@@ -29,7 +29,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    'assets/buefy-theme-override.scss'
+    'assets/buefy-theme-override.scss',
   ],
 
   /*
@@ -43,7 +43,7 @@ module.exports = {
   */
   modules: [,
     // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
+    'nuxt-buefy',
   ],
   buefy: {
     materialDesignIcons: false,

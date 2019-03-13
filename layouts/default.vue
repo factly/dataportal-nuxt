@@ -24,13 +24,7 @@
       </div>
       <div class="navbar-menu" v-bind:class="{ 'is-active': opened }">
         <div class="navbar-end">
-          <nuxt-link class="navbar-item" to="/login">
-            Login
-          </nuxt-link>
-          <nuxt-link class="navbar-item" to="/signup">
-            Signup
-          </nuxt-link>
-          <nuxt-link class="navbar-item" to="/">
+          <nuxt-link class="navbar-item" to="/datasets">
             Datasets
           </nuxt-link>
           <nuxt-link class="navbar-item" to="/organisations">
@@ -42,6 +36,15 @@
           <nuxt-link class="navbar-item" to="/about-us">
             About Us
           </nuxt-link>
+           <nuxt-link v-if="!token" class="navbar-item" to="/login">
+            Login
+          </nuxt-link>
+          <nuxt-link v-if="!token" class="navbar-item" to="/signup">
+            Signup
+          </nuxt-link>
+          <a v-if="token" class="navbar-item" v-on:click="logout()">
+            Logout
+          </a>
         </div>
       </div>
     </nav>
@@ -85,6 +88,15 @@ export default {
   methods:{
     toggleMenu(){
       this.opened = !this.opened;
+    },
+    logout(){
+      this.$store.commit('user/setToken',undefined);
+
+    }
+  },
+  computed: {
+    token () {
+      return this.$store.state.user.token
     }
   }
 }

@@ -1,5 +1,4 @@
 <template>
-  <button class="button is-fullwidth is-primary is-rounded" v-on:click="getToken">Test</button>
 
 </template>
 

@@ -74,6 +74,7 @@ export default {
     return axios
       .get(`http://localhost:3000/api/organisations`)
       .then(response => {
+        console.log(response.data)
         return {
                 organisations : response.data ,
                 count: response.data.length
@@ -112,7 +113,7 @@ export default {
             }
             else{
                 return axios
-                    .get(`http://localhost:3000/api/organisations`)
+                    .get(`http://localhost:3000/api/organisations/`)
                     .then(response => {
                         console.log(response.data);
                         this.organisations = response.data

@@ -7,7 +7,7 @@
                 ref="autocomplete"
                 v-model="name"
                 :data="data"
-                :placeholder="'Search from'+count+' Groups'"
+                :placeholder="'Search from '+count+' Groups'"
                 field="title"
                 :loading="isFetching"
                 @keyup.enter.native="search"
@@ -34,14 +34,16 @@
     <br>
     <section v-if="groups">
         <div class="columns .is-variable is-3 is-multiline is-mobile is-centered">
-            <GroupCard 
-                class="column is-one-quarter-desktop is-full-mobile" 
-                v-for="(group,index) in groups" 
-                :key="index" 
+            <nuxt-link 
+                class="card-wrapper column is-one-quarter-desktop is-full-mobile" 
+                :to="'groups/'+group.id" v-for="(group,index) in groups" 
+                :key="index" >
+            <GroupCard
                 :title="group.title" 
                 :imageSrc="group.image_display_url"
                 :followers="group.num_followers"
                 :datasets="group.package_count" />
+            </nuxt-link>
         </div>
     </section>
 </div>

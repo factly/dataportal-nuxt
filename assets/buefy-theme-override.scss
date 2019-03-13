@@ -1,6 +1,6 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
-
+@import "~bulma-badge/src/sass/index.sass";
 // Set your colors
 $primary:#0d47a1;
 $primary-invert: findColorInvert($primary);

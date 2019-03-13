@@ -66,7 +66,7 @@
                         </div>
                     </b-tab-item>
                     <b-tab-item label="Activity Stream">
-                      <div v-html="activityHtml"></div>
+                        <div v-html="activityHtml"></div>
                     </b-tab-item>
 
                     <b-tab-item label="About">
@@ -97,16 +97,15 @@ export default {
                 description:null,
                 packages:null,
                 followStatus:null,
-                activityHtml:null
             }
     },
     async asyncData({store,params}){
     let id=params.id;
     let data ={ };
-    let organisationDataPromise = axios(
+    let groupDataPromise = axios(
         {
             method:"get",
-            url:"http://localhost:3000/api/organisations/"+id,
+            url:"http://localhost:3000/api/groups/"+id,
         }
     );
     let token = store.state.user.token;
@@ -120,27 +119,28 @@ export default {
             }
         }
     )
-    let activityPromise = axios(
+     let activityPromise = axios(
         {
             method:"post",
-            url:"http://localhost:3000/api/activities/html/organisation",
+            url:"http://localhost:3000/api/activities/html/group",
             data:{
                 id:id
             }
         }
     )
-    let organisationData,followStatusData,activityHtml
-
-    [organisationData,followStatusData,activityHtml] = [ await organisationDataPromise,await followStatusPromise,await activityPromise];
-    if(organisationData.data.success){
+    let groupData,followStatusData,activityHtml
+    [groupData,followStatusData,activityHtml] = [ await groupDataPromise,await followStatusPromise ,await activityPromise];
+    followStatusData = await followStatusPromise;
+    console.log(groupData.data.result)
+    if(groupData.data.success){
         data ={
             id:id,
-            name:organisationData.data.result.name,
-            imageUrl:organisationData.data.result.image_display_url,
-            numFollowers:organisationData.data.result.num_followers,
-            packageCount:organisationData.data.result.package_count,
-            description:organisationData.data.result.description,
-            packages:organisationData.data.result.packages
+            name:groupData.data.result.name,
+            imageUrl:groupData.data.result.image_display_url,
+            numFollowers:groupData.data.result.num_followers,
+            packageCount:groupData.data.result.package_count,
+            description:groupData.data.result.description,
+            packages:groupData.data.result.packages
         }
     }
     if(followStatusData.data.success)
