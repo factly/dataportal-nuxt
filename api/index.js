@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
-// const baseUrl ="http://0.0.0.0:5000"
-const baseUrl = "http://demo.ckan.org"
+const baseUrl ="http://0.0.0.0:5000"
+// const baseUrl = "http://demo.ckan.org"
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -126,7 +126,7 @@ app.get('/datasets',async (req,res,next)=>{
             method:'get',
             url:baseUrl+'/api/3/action/current_package_list_with_resources?limit=10'
         })
-        res.json(packages.data.result)
+        res.json(packages.data)
 
         }catch(err){
             console.log(err);
@@ -149,15 +149,15 @@ app.get('/datasets',async (req,res,next)=>{
             url+="?"+searchUrl;
         else if(filterUrl)
             url+="?"+filterUrl;
-        url+="&limit=10"
+        url+="&rows=10"
         try{
             const filteredPackages = await axios({
                 method:'get',
                 url:url
             })
             var packageNames = []
-            console.log(filteredPackages)
-            res.json(filteredPackages.data.result)
+            filteredPackages.data.result = filteredPackages.data.result.results;
+            res.json(filteredPackages.data)
             //console.log(packageNames)
             //filteredPackages.data.result.forEach((item)=>packageNames.push(item.name))
             // console.log(filteredPackages)
